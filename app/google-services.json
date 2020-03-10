@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "980859914748",
+    "firebase_url": "https://fribetdata.firebaseio.com",
+    "project_id": "fribetdata",
+    "storage_bucket": "fribetdata.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980859914748:android:f084702d53b8a5d77f4a79",
+        "android_client_info": {
+          "package_name": "com.example.fribet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980859914748-6bmcmao9193ce2bcvj7iesssdsgnnrlv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxgkm7DCl2C2ljd3LYWhC8tjWS1kUaoiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980859914748-6bmcmao9193ce2bcvj7iesssdsgnnrlv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
