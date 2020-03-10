@@ -10,12 +10,14 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_register.*
 
 
 class RegisterActivity : AppCompatActivity() {
 
     var fbAuth = FirebaseAuth.getInstance()
+    var db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +26,10 @@ class RegisterActivity : AppCompatActivity() {
         var pass = findViewById<EditText>(R.id.passReg)
         var passRepeat = findViewById<EditText>(R.id.passRepeatReg)
         registerButton.setOnClickListener(){view ->
-            if(pass.text.toString() == passRepeat.text.toString())
+            if(pass.text.toString() == passRepeat.text.toString()){
                 registerAccount(view, email.text.toString(), pass.text.toString())
+                db.collection("Users").add()
+            }
             else
                 Log.d("asd","error, not same pw")
         }

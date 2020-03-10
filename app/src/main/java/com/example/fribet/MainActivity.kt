@@ -13,10 +13,15 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.log
+import com.google.firebase.firestore.FirebaseFirestore
+
+
+
 
 class MainActivity : AppCompatActivity() {
 
     var fbAuth = FirebaseAuth.getInstance()
+    var db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
