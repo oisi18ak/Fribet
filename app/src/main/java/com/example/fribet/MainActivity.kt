@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
-
+        //This row is just to show how it can be used, can be removed so that we don't create random users every time
         Firestore.instance.addUser("1","2")
 
         setContentView(R.layout.activity_main)
