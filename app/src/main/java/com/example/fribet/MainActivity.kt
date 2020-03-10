@@ -27,6 +27,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
+
+        Firestore.instance.addUser("1","2")
+
         setContentView(R.layout.activity_main)
         var btnLogin = findViewById<Button>(R.id.btnLogin)
         var loginInfo = findViewById<EditText>(R.id.loginText)
