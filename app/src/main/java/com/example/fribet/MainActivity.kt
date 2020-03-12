@@ -26,9 +26,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Firestore.instance.addBet("1","2")
+        Firestore.instance.getAllBets()
 
 
-        Firestore.instance.addUser("1","2")
 
         setContentView(R.layout.activity_main)
         var btnLogin = findViewById<Button>(R.id.btnLogin)
