@@ -26,9 +26,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //Firestore.instance.addBet("1","2",true)
 
-        //This row is just to show how it can be used, can be removed so that we don't create random users every time
-        Firestore.instance.addUser("1","2")
+        //Firestore.instance.getAllAcceptedBets()
+        Firestore.instance.getAllAcceptedBets()
+        //Firestore.instance.getAllBets()
+
 
         setContentView(R.layout.activity_main)
         var btnLogin = findViewById<Button>(R.id.btnLogin)
