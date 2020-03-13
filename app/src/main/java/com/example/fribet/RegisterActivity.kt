@@ -25,10 +25,12 @@ class RegisterActivity : AppCompatActivity() {
         var email = findViewById<EditText>(R.id.emailReg)
         var pass = findViewById<EditText>(R.id.passReg)
         var passRepeat = findViewById<EditText>(R.id.passRepeatReg)
+        var username = findViewById<EditText>(R.id.usernameReg)
+
         registerButton.setOnClickListener(){view ->
             if(pass.text.toString() == passRepeat.text.toString()){
                 registerAccount(view, email.text.toString(), pass.text.toString())
-
+                Firestore.instance.addUser(email.text.toString(), username.text.toString())
             }
             else
                 Log.d("asd","error, not same pw")
