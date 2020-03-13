@@ -3,6 +3,7 @@ package com.example.fribet
 data class User(
     val username: String? = " ",
     val email: String? = " ",
+    val userId: String? = " ",
     val totalBets: Int? = 0,
     val wins: Int? = 0,
     val losses: Int? = 0,

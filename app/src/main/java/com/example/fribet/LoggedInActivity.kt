@@ -17,6 +17,7 @@ class LoggedInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_logged_in)
+        Firestore.instance.readUserId()
         var btnLogOut = findViewById<Button>(R.id.btnLogout)
         var btnSetting = findViewById<Button>(R.id.settingsButton)
 
