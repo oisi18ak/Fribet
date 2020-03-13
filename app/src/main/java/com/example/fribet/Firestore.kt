@@ -62,29 +62,11 @@ class Firestore {
 
     }
 
-    fun readUserId(){
-        val user = firebaseAuth.currentUser
-        UserRepository.instance.currentUserId = user?.uid
-    }
+    //fun readUserId(){
+      //  val user = firebaseAuth.currentUser
+        //UserRepository.instance.currentUserId = user?.uid
+    //}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 }
