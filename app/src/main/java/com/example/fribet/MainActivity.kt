@@ -26,9 +26,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Firestore.instance.addBet("1","2")
-        Firestore.instance.getAllBets()
+        //Firestore.instance.addBet("1","2",true)
 
+        //Firestore.instance.getAllAcceptedBets()
+        Firestore.instance.getAllAcceptedBets()
+        //Firestore.instance.getAllBets()
 
 
         setContentView(R.layout.activity_main)
