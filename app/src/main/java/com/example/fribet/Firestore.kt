@@ -26,14 +26,17 @@ class Firestore {
         db.collection("Users").document(userId!!).set(newUser)
     }
     fun addBet(playerSending: String, playerReceiving: String,accepted:Boolean){
-        val newBet = Bets(playerSending, playerReceiving,"",0,accepted)
+        Log.d("playerSending1",playerSending)
+        val newBet = Bets(playerSending, playerReceiving,"",0,true)
         db.collection("Bets").add(newBet)
     }
 
     fun getAllAcceptedBets(){
         db.collection("Bets")
             .whereEqualTo("accepted",true)
+            //.whereEqualTo("playerSending",UserRepository.instance.currentUserId)
             .whereEqualTo("playerReceiving",UserRepository.instance.currentUserId)
+
             .get()
             .addOnSuccessListener { result ->
                 Log.d("testynipple", result.size().toString())
