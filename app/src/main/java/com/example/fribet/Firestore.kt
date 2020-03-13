@@ -1,7 +1,12 @@
 package com.example.fribet
 
 import android.util.Log
+//import androidx.test.orchestrator.junit.BundleJUnitUtils.getResult
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
+//import org.junit.experimental.results.ResultMatchers.isSuccessful
+
 
 class Firestore {
     companion object{
@@ -51,6 +56,36 @@ class Firestore {
             }
         }
 
+    }
+
+
+    fun getPlayerId(){
+        db.collection("Users")
+            .get()
+            .addOnCompleteListener(OnCompleteListener<QuerySnapshot> { task ->
+                if (task.isSuccessful) {
+                    for (documentSnapshot in task.result!!.documents) {
+                        UserRepository.instance.playerId = documentSnapshot.id
+                        Log.d("getPlayerIdId", "The players id is: ${UserRepository.instance.playerId}")
+                        // here you can get the id.
+                        //val user: User = documentSnapshot.toObject(User::class.java).
+                        //document.toObject(user::class.java).withId(document.getId())
+                        // you can apply your actions...
+                    }
+                }
+                else {
+
+                }
+            })
+    }
+
+    fun getPlayerAcceptedBets(){
+        val betRef = db.collection("Bets")
+            //.whereEqualTo("playerReceiving")
+            .get()
+        betRef.addOnSuccessListener {
+
+        }
     }
 
 
