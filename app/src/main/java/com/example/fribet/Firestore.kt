@@ -31,7 +31,6 @@ class Firestore {
     }
 
     fun getAllAcceptedBets(){
-
         db.collection("Bets")
             .whereEqualTo("accepted",true)
             .get()
@@ -45,6 +44,8 @@ class Firestore {
                 Log.d("betfail", "Error getting documents: ", exception)
             }
     }
+
+
 
     fun getAllBets(){
         val betRef = db.collection("Bets").get()

@@ -40,7 +40,6 @@ class RegisterActivity : AppCompatActivity() {
                     Firestore.instance.addUser(email,"testAvDennis2")
                     var intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-
                     finish()
                 }else{
                     showMessage(view,"Error: ${task.exception?.message}")

@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         Firestore.instance.getAllAcceptedBets()
         Firestore.instance.getAllAcceptedBets()
         Firestore.instance.getAllBets()
@@ -62,4 +62,3 @@ class MainActivity : AppCompatActivity() {
         Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show()
     }
 }
-

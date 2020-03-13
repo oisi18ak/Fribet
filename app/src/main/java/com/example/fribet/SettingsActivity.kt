@@ -35,7 +35,6 @@ class SettingsActivity  : AppCompatActivity() {
                 ) { dialog, whichButton ->
                     // Do not delete it.
                 }.show()
-
         }
 
     }
