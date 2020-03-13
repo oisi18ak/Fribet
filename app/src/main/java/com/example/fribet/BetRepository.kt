@@ -6,4 +6,5 @@ class BetRepository {
     }
     var listOfBets = mutableListOf<Bets>()
     var listOfAcceptedBets = mutableListOf<Bets>()
+    var listOfUnacceptedBets = mutableListOf<Bets>()
 }

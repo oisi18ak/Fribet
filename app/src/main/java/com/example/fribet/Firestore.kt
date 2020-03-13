@@ -36,9 +36,10 @@ class Firestore {
             .whereEqualTo("accepted",true)
             .get()
             .addOnSuccessListener { result ->
+                Log.d("testynipple", result.size().toString())
                 for (document in result) {
                     BetRepository.instance.listOfAcceptedBets.add(document.toObject(Bets::class.java))
-                    Log.d("betsuccess", "${document.id} => ${document.data}")
+                    Log.d("betsuccess1", "${document.id} => ${document.data}")
                 }
             }
             .addOnFailureListener { exception ->
@@ -47,23 +48,37 @@ class Firestore {
     }
 
     fun getAllBets(){
-        val betRef = db.collection("Bets").get()
-        Log.d("hej2","outside")
+        val betRef = db.collection("Bets")
+
+            .get()
         betRef.addOnCompleteListener{
             if(it.isSuccessful) {
-                Log.d("hej1","Inside success")
                 BetRepository.instance.listOfBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
-                Log.d("theBets: ", BetRepository.instance.listOfBets.toString())
+                Log.d("testoterone","${BetRepository.instance.listOfBets}")
             }
             else{
                 Log.d("Errors: ", it.exception.toString())
             }
         }
-
     }
 
     fun readUserId(){
         val user = firebaseAuth.currentUser
         UserRepository.instance.currentUserId = user?.uid
+    }
+
+    fun getUnacceptedBets(){
+        db.collection("Bets")
+            .whereEqualTo("accepted",false)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    BetRepository.instance.listOfUnacceptedBets.add(document.toObject(Bets::class.java))
+                    Log.d("betsuccess2", "${document.id} => ${document.data}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("betfail2", "Error getting documents: ", exception)
+            }
     }
 }
