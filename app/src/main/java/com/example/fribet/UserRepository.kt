@@ -4,6 +4,5 @@ class UserRepository {
     companion object{
         val instance = UserRepository()
     }
-    lateinit var playerId: String
-
+    var currentUserId: String? = " "
 }
