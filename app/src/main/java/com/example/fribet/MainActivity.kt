@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         //Firestore.instance.getAllAcceptedBets()
         Firestore.instance.getAllAcceptedBets()
         Firestore.instance.getUnacceptedBets()
-        Firestore.instance.getAllBets()
+        Firestore.instance.getAllPlayerBets()
 
 
         setContentView(R.layout.activity_main)

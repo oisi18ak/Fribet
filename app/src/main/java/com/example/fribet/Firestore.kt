@@ -31,9 +31,9 @@ class Firestore {
     }
 
     fun getAllAcceptedBets(){
-
         db.collection("Bets")
             .whereEqualTo("accepted",true)
+            .whereEqualTo("playerReceiving",UserRepository.instance.currentUserId)
             .get()
             .addOnSuccessListener { result ->
                 Log.d("testynipple", result.size().toString())
@@ -47,9 +47,9 @@ class Firestore {
             }
     }
 
-    fun getAllBets(){
+    fun getAllPlayerBets(){
         val betRef = db.collection("Bets")
-
+            .whereEqualTo("playerReceiving",UserRepository.instance.currentUserId)
             .get()
         betRef.addOnCompleteListener{
             if(it.isSuccessful) {
@@ -62,6 +62,29 @@ class Firestore {
         }
     }
 
+
+    //Used to copy and paste to morph into; uncompleted. completed. etc Bets
+    /*
+    fun getAllBets(){
+        val betRef = db.collection("Bets")
+            .get()
+        betRef.addOnCompleteListener{
+            if(it.isSuccessful) {
+                BetRepository.instance.listOfBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
+                Log.d("testoterone","${BetRepository.instance.listOfBets}")
+            }
+            else{
+                Log.d("Errors: ", it.exception.toString())
+            }
+        }
+    }
+    */
+
+
+
+
+
+
     fun readUserId(){
         val user = firebaseAuth.currentUser
         UserRepository.instance.currentUserId = user?.uid
@@ -70,6 +93,7 @@ class Firestore {
     fun getUnacceptedBets(){
         db.collection("Bets")
             .whereEqualTo("accepted",false)
+            .whereEqualTo("playerReceiving",UserRepository.instance.currentUserId)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
