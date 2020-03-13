@@ -25,11 +25,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         Firestore.instance.getAllAcceptedBets()
         Firestore.instance.getUnacceptedBets()
         Firestore.instance.getAllPlayerBets()
-
 
         setContentView(R.layout.activity_main)
         var btnLogin = findViewById<Button>(R.id.btnLogin)
@@ -60,7 +59,6 @@ class MainActivity : AppCompatActivity() {
                 showMessage(view,"Error: ${task.exception?.message}")
             }
         })
-
     }
 
     fun showMessage(view:View, message: String){

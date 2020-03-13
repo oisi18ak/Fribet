@@ -62,15 +62,13 @@ class Firestore {
         }
     }
 
-
-    //Used to copy and paste to morph into; uncompleted. completed. etc Bets
-    /*
-    fun getAllBets(){
+    fun getAllUncompletedBets(){
         val betRef = db.collection("Bets")
+            .whereEqualTo("completed",false)
             .get()
         betRef.addOnCompleteListener{
             if(it.isSuccessful) {
-                BetRepository.instance.listOfBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
+                BetRepository.instance.listOfUncompletedBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
                 Log.d("testoterone","${BetRepository.instance.listOfBets}")
             }
             else{
@@ -78,11 +76,21 @@ class Firestore {
             }
         }
     }
-    */
-
-
-
-
+//Used for a users history & probably for a notifyng users that a bet has been completed
+    fun getAllCompletedBets(){
+        val betRef = db.collection("Bets")
+            .whereEqualTo("completed",true)
+            .get()
+        betRef.addOnCompleteListener{
+            if(it.isSuccessful) {
+                BetRepository.instance.listOfCompletedBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
+                Log.d("testoterone","${BetRepository.instance.listOfBets}")
+            }
+            else{
+                Log.d("Errors: ", it.exception.toString())
+            }
+        }
+    }
 
 
     fun readUserId(){
@@ -105,4 +113,25 @@ class Firestore {
                 Log.d("betfail2", "Error getting documents: ", exception)
             }
     }
+
+
+
+    //Used to copy and paste to morph into; uncompleted. completed. etc Bets
+    /*
+    fun getAllBets(){
+        val betRef = db.collection("Bets")
+            .get()
+        betRef.addOnCompleteListener{
+            if(it.isSuccessful) {
+                BetRepository.instance.listOfBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
+                Log.d("testoterone","${BetRepository.instance.listOfBets}")
+            }
+            else{
+                Log.d("Errors: ", it.exception.toString())
+            }
+        }
+    }
+    */
+
+
 }
