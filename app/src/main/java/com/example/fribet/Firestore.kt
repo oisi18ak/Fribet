@@ -21,8 +21,17 @@ class Firestore {
     }
 
     fun getAllBets(){
-        val testList = listOf(db.collection("Bets"))
-        testList.forEach { System.out.print(it) }
+        db.collection("Bets")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d("betsuccess", "${document.id} => ${document.data}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("betfail", "Error getting documents: ", exception)
+            }
+
     }
 
 
