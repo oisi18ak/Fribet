@@ -1,6 +1,7 @@
 package com.example.fribet
 
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class Firestore {
@@ -8,13 +9,21 @@ class Firestore {
         val instance = Firestore()
     }
     val db = FirebaseFirestore.getInstance()
+    val firebaseAuth = FirebaseAuth.getInstance()
 
 
 
     fun addUser(email:String, username: String){
-        val newUser = User(username,email)
-        db.collection("Users").add(newUser)
+        firebaseAuth.currentUser?.reload()
+        val userId = firebaseAuth.currentUser?.uid
+        Log.d("idInAddUser",userId)
+        val newUser = User(username,email,userId)
+        db.collection("Users").document(userId!!).set(newUser)
     }
+
+
+
+
     fun addBet(playerSending: String, playerReceiving: String,accepted:Boolean){
         val newBet = Bets(playerSending, playerReceiving,"",0,accepted)
         db.collection("Bets").add(newBet)
@@ -28,9 +37,7 @@ class Firestore {
             .addOnSuccessListener { result ->
                 for (document in result) {
                     BetRepository.instance.listOfAcceptedBets.add(document.toObject(Bets::class.java))
-                    Log.d("betsuccess", "${document.id} => ${document.data}")
                 }
-                Log.d("blablabla",BetRepository.instance.listOfAcceptedBets.toString())
             }
             .addOnFailureListener { exception ->
                 Log.d("betfail", "Error getting documents: ", exception)
@@ -50,10 +57,12 @@ class Firestore {
                 Log.d("Errors: ", it.exception.toString())
             }
         }
-
     }
 
-
+    fun readUserId(){
+        val user = firebaseAuth.currentUser
+        UserRepository.instance.currentUserId = user?.uid
+    }
 
 
 
