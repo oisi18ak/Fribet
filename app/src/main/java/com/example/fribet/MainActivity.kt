@@ -18,20 +18,13 @@ import kotlin.math.log
 class MainActivity : AppCompatActivity() {
 
     var fbAuth = FirebaseAuth.getInstance()
-    val db = FirebaseFirestore.getInstance()
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //Firestore.instance.addBet("1","2",true)
-
-        //Firestore.instance.getAllAcceptedBets()
+        
         Firestore.instance.getAllAcceptedBets()
-        //Firestore.instance.getAllBets()
-
+        Firestore.instance.getAllAcceptedBets()
+        Firestore.instance.getAllBets()
 
         setContentView(R.layout.activity_main)
         var btnLogin = findViewById<Button>(R.id.btnLogin)
