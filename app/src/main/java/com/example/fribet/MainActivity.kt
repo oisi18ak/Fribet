@@ -25,10 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //Firestore.instance.addBet("1","2",true)
-
-        //Firestore.instance.getAllAcceptedBets()
+        
         Firestore.instance.getAllAcceptedBets()
         Firestore.instance.getUnacceptedBets()
         Firestore.instance.getAllPlayerBets()
