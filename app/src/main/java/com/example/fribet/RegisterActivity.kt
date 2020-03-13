@@ -28,7 +28,7 @@ class RegisterActivity : AppCompatActivity() {
         registerButton.setOnClickListener(){view ->
             if(pass.text.toString() == passRepeat.text.toString()){
                 registerAccount(view, email.text.toString(), pass.text.toString())
-                db.collection("Users").add()
+
             }
             else
                 Log.d("asd","error, not same pw")

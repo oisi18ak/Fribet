@@ -11,15 +11,25 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
     var fbAuth = FirebaseAuth.getInstance()
+    val db = FirebaseFirestore.getInstance()
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        //This row is just to show how it can be used, can be removed so that we don't create random users every time
+        Firestore.instance.addUser("1","2")
+
         setContentView(R.layout.activity_main)
         var btnLogin = findViewById<Button>(R.id.btnLogin)
         var loginInfo = findViewById<EditText>(R.id.loginText)
