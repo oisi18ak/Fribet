@@ -6,6 +6,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import javax.security.auth.callback.Callback
+
 //import org.junit.experimental.results.ResultMatchers.isSuccessful
 
 
@@ -24,19 +26,22 @@ class Firestore {
         db.collection("Users").document(userId!!).set(newUser)
     }
     fun addBet(playerSending: String, playerReceiving: String,accepted:Boolean){
-        val newBet = Bets(playerSending, playerReceiving,"",0,accepted)
+        val newBet = Bets(0,accepted,false," ", playerSending,playerReceiving)
         db.collection("Bets").add(newBet)
     }
 
-    fun getAllAcceptedBets(){
+    fun getAllAcceptedBets(callback: (MutableList<Bets>) -> Unit){
         db.collection("Bets")
             .whereEqualTo("accepted",true)
             .get()
             .addOnSuccessListener { result ->
+                var listOfBets = mutableListOf<Bets>()
                 for (document in result) {
-                    BetRepository.instance.listOfAcceptedBets.add(document.toObject(Bets::class.java))
+                  listOfBets.add(document.toObject(Bets::class.java))
+                  //  BetRepository.instance.listOfAcceptedBets.add(document.toObject(Bets::class.java))
                     Log.d("betsuccess", "${document.id} => ${document.data}")
                 }
+                callback(listOfBets)
             }
             .addOnFailureListener { exception ->
                 Log.d("betfail", "Error getting documents: ", exception)
