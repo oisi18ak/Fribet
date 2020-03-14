@@ -16,8 +16,6 @@ class Firestore {
     val db = FirebaseFirestore.getInstance()
     val firebaseAuth = FirebaseAuth.getInstance()
 
-
-
     fun addUser(email:String, username: String){
         firebaseAuth.currentUser?.reload()
         val userId = firebaseAuth.currentUser?.uid
@@ -26,23 +24,18 @@ class Firestore {
         db.collection("Users").document(userId!!).set(newUser)
     }
     fun addBet(playerSending: String, playerReceiving: String,accepted:Boolean){
-        Log.d("playerSending1",playerSending)
-        val newBet = Bets(playerSending, playerReceiving,"",0,true)
+        val newBet = Bets(playerSending, playerReceiving,"",0,accepted)
         db.collection("Bets").add(newBet)
     }
 
     fun getAllAcceptedBets(){
         db.collection("Bets")
             .whereEqualTo("accepted",true)
-            //.whereEqualTo("playerSending",UserRepository.instance.currentUserId)
-            .whereEqualTo("playerReceiving",UserRepository.instance.currentUserId)
-
             .get()
             .addOnSuccessListener { result ->
-                Log.d("testynipple", result.size().toString())
                 for (document in result) {
                     BetRepository.instance.listOfAcceptedBets.add(document.toObject(Bets::class.java))
-                    Log.d("betsuccess1", "${document.id} => ${document.data}")
+                    Log.d("betsuccess", "${document.id} => ${document.data}")
                 }
             }
             .addOnFailureListener { exception ->
@@ -56,6 +49,7 @@ class Firestore {
             .get()
         betRef.addOnCompleteListener{
             if(it.isSuccessful) {
+                Log.d("hej1","Inside success")
                 BetRepository.instance.listOfBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
                 Log.d("testoterone","${BetRepository.instance.listOfBets}")
             }
@@ -93,8 +87,8 @@ class Firestore {
                 Log.d("Errors: ", it.exception.toString())
             }
         }
-    }
 
+    }
 
     fun readUserId(){
         val user = firebaseAuth.currentUser
