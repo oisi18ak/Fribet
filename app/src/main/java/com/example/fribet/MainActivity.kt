@@ -26,12 +26,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        //Simon; Den här kan du använda för att spara in alla accepted bets i listan
+        // i betRepos och sen kan du accessa repos i din adapter för att få listan av bets
         Firestore.instance.getAllAcceptedBets{allBets ->
-            Log.d("williamIsKing","$allBets")
+            BetRepository.instance.listOfAcceptedBets = allBets
         }
-        Firestore.instance.getUnacceptedBets()
-        Firestore.instance.getAllPlayerBets()
-        Log.d("hejhejhej","insidefuckingshit")
 
         setContentView(R.layout.activity_main)
         var btnLogin = findViewById<Button>(R.id.btnLogin)

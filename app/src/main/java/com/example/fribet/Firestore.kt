@@ -30,7 +30,7 @@ class Firestore {
         db.collection("Bets").add(newBet)
     }
 
-    fun getAllAcceptedBets(callback: (List<Bets>) -> Unit){
+    fun getAllAcceptedBets(callback: (MutableList<Bets>) -> Unit){
         db.collection("Bets")
             .whereEqualTo("accepted",true)
             .get()
