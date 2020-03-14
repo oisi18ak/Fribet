@@ -18,13 +18,20 @@ import kotlin.math.log
 class MainActivity : AppCompatActivity() {
 
     var fbAuth = FirebaseAuth.getInstance()
+    val db = FirebaseFirestore.getInstance()
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //Firestore.instance.addBet("1","2",true)
+
+        //Firestore.instance.getAllAcceptedBets()
         Firestore.instance.getAllAcceptedBets()
-        Firestore.instance.getAllAcceptedBets()
-        Firestore.instance.getAllBets()
+        Firestore.instance.getUnacceptedBets()
+        Firestore.instance.getAllPlayerBets()
 
         setContentView(R.layout.activity_main)
         var btnLogin = findViewById<Button>(R.id.btnLogin)
@@ -62,3 +69,4 @@ class MainActivity : AppCompatActivity() {
         Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show()
     }
 }
+

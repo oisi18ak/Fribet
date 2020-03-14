@@ -16,8 +16,6 @@ class Firestore {
     val db = FirebaseFirestore.getInstance()
     val firebaseAuth = FirebaseAuth.getInstance()
 
-
-
     fun addUser(email:String, username: String){
         firebaseAuth.currentUser?.reload()
         val userId = firebaseAuth.currentUser?.uid
@@ -45,16 +43,45 @@ class Firestore {
             }
     }
 
-
-
-    fun getAllBets(){
-        val betRef = db.collection("Bets").get()
-        Log.d("hej2","outside")
+    fun getAllPlayerBets(){
+        val betRef = db.collection("Bets")
+            .whereEqualTo("playerReceiving",UserRepository.instance.currentUserId)
+            .get()
         betRef.addOnCompleteListener{
             if(it.isSuccessful) {
                 Log.d("hej1","Inside success")
                 BetRepository.instance.listOfBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
-                Log.d("theBets: ", BetRepository.instance.listOfBets.toString())
+                Log.d("testoterone","${BetRepository.instance.listOfBets}")
+            }
+            else{
+                Log.d("Errors: ", it.exception.toString())
+            }
+        }
+    }
+
+    fun getAllUncompletedBets(){
+        val betRef = db.collection("Bets")
+            .whereEqualTo("completed",false)
+            .get()
+        betRef.addOnCompleteListener{
+            if(it.isSuccessful) {
+                BetRepository.instance.listOfUncompletedBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
+                Log.d("testoterone","${BetRepository.instance.listOfBets}")
+            }
+            else{
+                Log.d("Errors: ", it.exception.toString())
+            }
+        }
+    }
+//Used for a users history & probably for a notifyng users that a bet has been completed
+    fun getAllCompletedBets(){
+        val betRef = db.collection("Bets")
+            .whereEqualTo("completed",true)
+            .get()
+        betRef.addOnCompleteListener{
+            if(it.isSuccessful) {
+                BetRepository.instance.listOfCompletedBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
+                Log.d("testoterone","${BetRepository.instance.listOfBets}")
             }
             else{
                 Log.d("Errors: ", it.exception.toString())
@@ -67,4 +94,41 @@ class Firestore {
         val user = firebaseAuth.currentUser
         UserRepository.instance.currentUserId = user?.uid
     }
+
+    fun getUnacceptedBets(){
+        db.collection("Bets")
+            .whereEqualTo("accepted",false)
+            .whereEqualTo("playerReceiving",UserRepository.instance.currentUserId)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    BetRepository.instance.listOfUnacceptedBets.add(document.toObject(Bets::class.java))
+                    Log.d("betsuccess2", "${document.id} => ${document.data}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("betfail2", "Error getting documents: ", exception)
+            }
+    }
+
+
+
+    //Used to copy and paste to morph into; uncompleted. completed. etc Bets
+    /*
+    fun getAllBets(){
+        val betRef = db.collection("Bets")
+            .get()
+        betRef.addOnCompleteListener{
+            if(it.isSuccessful) {
+                BetRepository.instance.listOfBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
+                Log.d("testoterone","${BetRepository.instance.listOfBets}")
+            }
+            else{
+                Log.d("Errors: ", it.exception.toString())
+            }
+        }
+    }
+    */
+
+
 }
