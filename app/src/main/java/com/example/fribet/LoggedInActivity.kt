@@ -21,6 +21,7 @@ class LoggedInActivity : AppCompatActivity() {
 
         var btnLogOut = findViewById<Button>(R.id.btnLogout)
         var btnSetting = findViewById<Button>(R.id.settingsButton)
+        var btnMyBets = findViewById<Button>(R.id.myBetsButton)
 
         btnSetting.setOnClickListener{
             var intent = Intent(this, SettingsActivity::class.java)
@@ -30,6 +31,11 @@ class LoggedInActivity : AppCompatActivity() {
         btnLogOut.setOnClickListener{ view ->
             showMessage(view, "Logging Out...")
             signOut()
+        }
+
+        btnMyBets.setOnClickListener{
+            var intent = Intent(this, MyBetsActivity::class.java)
+            startActivity(intent)
         }
 
         fbAuth.addAuthStateListener {

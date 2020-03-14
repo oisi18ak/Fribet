@@ -21,6 +21,8 @@
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".SettingsActivity"></activity>
         <activity android:name=".ChangePasswordActivityActivity"></activity>
+        <activity android:name=".MyBetsActivity"></activity>
+        <activity android:name=".BetRequestActivity"></activity>
     </application>
 
 </manifest>
