@@ -20,7 +20,10 @@ class LoggedInActivity : AppCompatActivity() {
         Firestore.instance.readUserId()
         Firestore.instance.addBet(UserRepository.instance.currentUserId.toString(),
             "MFYbROlCV4fzMLKiWiiDBzS22lk2",true)
-        Firestore.instance.getAllAcceptedBets()
+        Log.d("testingListReturn","${BetRepository.instance.listOfAcceptedBets}")
+
+
+
 
         var btnLogOut = findViewById<Button>(R.id.btnLogout)
         var btnSetting = findViewById<Button>(R.id.settingsButton)
