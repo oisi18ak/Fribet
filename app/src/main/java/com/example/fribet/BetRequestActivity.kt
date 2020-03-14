@@ -22,7 +22,6 @@ class BetRequestActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_bet)
-
+        setContentView(R.layout.activity_bet_request)
     }
 }

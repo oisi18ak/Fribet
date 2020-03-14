@@ -29,18 +29,18 @@ class RegisterActivity : AppCompatActivity() {
 
         registerButton.setOnClickListener(){view ->
             if(pass.text.toString() == passRepeat.text.toString()){
-                registerAccount(view, email.text.toString(), pass.text.toString())
-                Firestore.instance.addUser(email.text.toString(), username.text.toString())
+                registerAccount(view, email.text.toString(), pass.text.toString(), username.text.toString())
             }
             else
                 Log.d("asd","error, not same pw")
         }
     }
-    fun registerAccount(view: View, email: String, pass: String){
+    fun registerAccount(view: View, email: String, pass: String, username: String){
         showMessage(view,"Registering account...")
         fbAuth.createUserWithEmailAndPassword(email, pass)
             .addOnCompleteListener(this, OnCompleteListener<AuthResult>{task ->
                 if(task.isSuccessful){
+                    Firestore.instance.addUser(email, username)
                     var intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
