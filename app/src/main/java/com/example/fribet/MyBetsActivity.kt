@@ -24,6 +24,7 @@ class MyBetsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_my_bets)
         var listView = findViewById<ListView>(R.id.listView)
         Log.d("asd","${mutableList}")
+        Log.d("asd","${BetRepository.instance.listOfAcceptedBets}")
         val adapter = ArrayAdapter<String>(
             this,
             android.R.layout.simple_list_item_1,
@@ -34,7 +35,7 @@ class MyBetsActivity : AppCompatActivity() {
 
         listView.setOnItemClickListener{ adapter, view, position, id ->
             val clickedToDo = BetRepository.instance.listOfAcceptedBets
-            val todoid = clickedToDo[position].playerReceiving
+            val todoid = clickedToDo[position].betID
             val intent = Intent(this, BetRequestActivity::class.java)
             intent.putExtra("toDoId", todoid)
             startActivity(intent)

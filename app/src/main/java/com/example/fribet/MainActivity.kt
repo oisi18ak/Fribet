@@ -28,8 +28,6 @@ class MainActivity : AppCompatActivity() {
         Firestore.instance.getAllAcceptedBets{allBets ->
             BetRepository.instance.listOfAcceptedBets = allBets
         }
-        Firestore.instance.getUnacceptedBets()
-        Firestore.instance.getAllPlayerBets()
 
         setContentView(R.layout.activity_main)
         var btnLogin = findViewById<Button>(R.id.btnLogin)
