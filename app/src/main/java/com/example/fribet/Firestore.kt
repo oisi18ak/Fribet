@@ -25,9 +25,17 @@ class Firestore {
         val newUser = User(username,email,userId)
         db.collection("Users").document(userId!!).set(newUser)
     }
-    fun addBet(playerSending: String, playerReceiving: String,accepted:Boolean){
-        val newBet = Bets(0,accepted,false," ", playerSending,playerReceiving)
-        db.collection("Bets").add(newBet)
+
+
+    fun addBet(playerSending: String, playerReceiving: String,accepted:Boolean, amount: Int, description: String){
+        val newBet = Bets(accepted,amount, " ", false,description,playerReceiving,playerSending)
+        val docRef = db.collection("Bets")
+            .add(newBet)
+        docRef.addOnSuccessListener {
+            val id = it.id
+            val documentReference = db.collection("Bets").document("${id}")
+            documentReference.update("betID", id)
+        }
     }
 
     fun getAllAcceptedBets(callback: (MutableList<Bets>) -> Unit){

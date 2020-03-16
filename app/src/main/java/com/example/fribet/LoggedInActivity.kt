@@ -18,8 +18,8 @@ class LoggedInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_logged_in)
         Firestore.instance.readUserId()
-        Firestore.instance.addBet(UserRepository.instance.currentUserId.toString(),
-            "MFYbROlCV4fzMLKiWiiDBzS22lk2",true)
+        //Firestore.instance.addBet(UserRepository.instance.currentUserId.toString(),
+          //  "MFYbROlCV4fzMLKiWiiDBzS22lk2",true)
         Log.d("testingListReturn","${BetRepository.instance.listOfAcceptedBets}")
 
 
