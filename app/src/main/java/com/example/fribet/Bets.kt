@@ -1,10 +1,12 @@
 package com.example.fribet
 
 data class Bets(
-    val amount: Int? = 0,
     val accepted: Boolean? = false,
+    val amount: Int? = 0,
+    var betID: String? = " ",
     val completed: Boolean? = false,
     val description: String? = " ",
-    val playerSending: String? = "",
-    val playerReceiving: String? = ""
+    val playerReceiving: String? = "",
+    val playerSending: String? = ""
+
 )
