@@ -23,7 +23,8 @@ class BetRequestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bet_request)
-        val clicked = intent.getStringExtra("toDoId")
+        val clicked = intent.getStringExtra("betId")
         Log.d("asd",clicked.toString())
+
     }
 }
