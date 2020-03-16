@@ -37,8 +37,8 @@ class Firestore {
             .addOnSuccessListener { result ->
                 var listOfBets = mutableListOf<Bets>()
                 for (document in result) {
-                  listOfBets.add(document.toObject(Bets::class.java))
-                  //  BetRepository.instance.listOfAcceptedBets.add(document.toObject(Bets::class.java))
+                    listOfBets.add(document.toObject(Bets::class.java))
+                    //  BetRepository.instance.listOfAcceptedBets.add(document.toObject(Bets::class.java))
                     Log.d("betsuccess", "${document.id} => ${document.data}")
                 }
                 callback(listOfBets)

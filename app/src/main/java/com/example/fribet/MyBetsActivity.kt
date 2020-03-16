@@ -1,7 +1,9 @@
 package com.example.fribet
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,16 +18,26 @@ class MyBetsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var mutableList = mutableListOf<String>()
+        for (bet in BetRepository.instance.listOfAcceptedBets)
+            bet.playerReceiving?.let { mutableList.add(it) }
         setContentView(R.layout.activity_my_bets)
-
         var listView = findViewById<ListView>(R.id.listView)
-        val adapter = ArrayAdapter<Bets>(
+        Log.d("asd","${mutableList}")
+        val adapter = ArrayAdapter<String>(
             this,
             android.R.layout.simple_list_item_1,
             android.R.id.text1,
-            BetRepository().listOfBets
+            mutableList
         )
         listView.adapter = adapter
 
+        listView.setOnItemClickListener{ adapter, view, position, id ->
+            val clickedToDo = BetRepository.instance.listOfAcceptedBets
+            val todoid = clickedToDo[position].playerReceiving
+            val intent = Intent(this, BetRequestActivity::class.java)
+            intent.putExtra("toDoId", todoid)
+            startActivity(intent)
+        }
     }
 }
