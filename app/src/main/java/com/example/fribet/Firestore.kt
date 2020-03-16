@@ -124,6 +124,20 @@ class Firestore {
             }
     }
 
+    fun getAllBets(){
+        db.collection("Bets")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    BetRepository.instance.listOfBets.add(document.toObject(Bets::class.java))
+                    Log.d("betsuccess2", "${document.id} => ${document.data}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("betfail2", "Error getting documents: ", exception)
+            }
+    }
+
 
 
     //Used to copy and paste to morph into; uncompleted. completed. etc Bets
