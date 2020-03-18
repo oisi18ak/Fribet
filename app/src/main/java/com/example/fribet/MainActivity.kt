@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
             BetRepository.instance.listOfAcceptedBets = allBets
         }
 
+
+
         setContentView(R.layout.activity_main)
         var btnLogin = findViewById<Button>(R.id.btnLogin)
         var loginInfo = findViewById<EditText>(R.id.loginText)

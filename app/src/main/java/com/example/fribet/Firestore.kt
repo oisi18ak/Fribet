@@ -116,6 +116,36 @@ class Firestore {
             }
     }
 
+    fun getAllBets(callback: (MutableList<Bets>) -> Unit){
+        db.collection("Bets")
+            .get()
+            .addOnSuccessListener { result ->
+                var listOfBets = mutableListOf<Bets>()
+                for (document in result) {
+                    listOfBets.add(document.toObject(Bets::class.java))
+                    BetRepository.instance.listOfBets.add(document.toObject(Bets::class.java))
+                    Log.d("betsuccess", "${document.id} => ${document.data}")
+                }
+                callback(listOfBets)
+            }
+            .addOnFailureListener { exception ->
+                Log.d("betfail", "Error getting documents: ", exception)
+            }
+    }
+
+    fun getBetById(betId: String , callback: (Bets) -> Unit) {
+        db.collection("Bets")
+            .whereEqualTo("betID",betId)
+            .get()
+            .addOnSuccessListener { result ->
+                var returnedBet = result.toObjects(Bets::class.java)
+                Log.d("betByIdSuccess", "Bet successfully received with result: ${result}")
+            }
+            .addOnFailureListener { e ->
+                Log.d("betByIdFail", "Bet unsuccessfully received with result: ", e)
+            }
+    }
+
 
 
     //Used to copy and paste to morph into; uncompleted. completed. etc Bets
