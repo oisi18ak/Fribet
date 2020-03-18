@@ -21,12 +21,17 @@ class MainActivity : AppCompatActivity() {
     val db = FirebaseFirestore.getInstance()
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Firestore.instance.getAllBets{allBets ->
             BetRepository.instance.listOfBets = allBets
+        }
+        Log.d("asd", fbAuth.currentUser.toString())
+        Firestore.instance.getUnacceptedBets()
+        Firestore.instance.getUserByUsername("simon"){ userWithUsername ->
+            UserRepository.instance.currentUserId = userWithUsername.toString()
+            val user = UserRepository.instance.currentUserId
+            //Firestore.instance.addBet(, user.,false,101,"this is a description")
         }
 
 
