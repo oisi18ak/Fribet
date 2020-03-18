@@ -171,6 +171,19 @@ class Firestore {
             }
 
     }
+
+    fun getUserByUserId(userId: String, callback: (User) -> Unit){
+        val docRef = db.collection("Users")
+            .whereEqualTo("userId",userId)
+            .get()
+            .addOnSuccessListener {
+                val user = it.toObjects(User::class.java)
+                callback(user[0])
+            }
+            .addOnFailureListener {
+                Log.d("UserNotGood", "no user by that id")
+            }
+    }
     
 
     fun deleteBetById(betId: String){
