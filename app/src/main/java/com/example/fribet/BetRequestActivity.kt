@@ -25,7 +25,10 @@ class BetRequestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bet_request)
         val clicked = intent.getStringExtra("betId")
-        Firestore.instance.getBetById(clicked)
+        /*Firestore.instance.getBetById(){returnedBet ->
+            BetRepository.instance.singleBet = returnedBet
+        }*/
+        //Firestore.instance.getBetById(clicked)
         Log.d("asd",clicked.toString())
         val bet = BetRepository.instance.singleBet
         Log.d("asd","${bet}")

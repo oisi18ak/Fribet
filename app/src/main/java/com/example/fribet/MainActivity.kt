@@ -25,10 +25,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Firestore.instance.getAllAcceptedBets{allBets ->
-            BetRepository.instance.listOfAcceptedBets = allBets
+        Firestore.instance.getAllBets{allBets ->
+            BetRepository.instance.listOfBets = allBets
         }
-        Firestore.instance.getAllBets()
 
 
 
