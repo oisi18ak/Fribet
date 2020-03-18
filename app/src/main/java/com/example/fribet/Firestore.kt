@@ -157,13 +157,14 @@ class Firestore {
             }
     }
 
-    fun getUserByUsername(username: String, callback: (MutableList<User>) -> Unit) {
+    fun getUserByUsername(username: String, callback: (String?) -> Unit) {
         db.collection("Users")
             .whereEqualTo("username", username)
             .get()
             .addOnSuccessListener { result ->
                 val userWithUsername = result.toObjects(User::class.java)
-                callback(userWithUsername)
+                val userId = userWithUsername[0].userId
+                callback(userId)
             }
             .addOnFailureListener {error ->
                 Log.d("getUserByUsernameFail","Couldn't find a user with that username", error)
