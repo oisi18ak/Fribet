@@ -138,6 +138,19 @@ class Firestore {
             }
     }
 
+    fun getBetById(betId: String){
+        val docRef = db.collection("Bets")
+            .whereEqualTo("betID", betId)
+            .get()
+        docRef.addOnSuccessListener { result ->
+            BetRepository.instance.singleBet = result.toObjects(Bets::class.java)
+            Log.d("betIdSuccess", "The bets id is: ${BetRepository.instance.singleBet}")
+        }
+        docRef.addOnFailureListener {e ->
+            Log.d("betIdFail", "Couldnt get that bet bu that id: ",e )
+        }
+    }
+
 
 
     //Used to copy and paste to morph into; uncompleted. completed. etc Bets

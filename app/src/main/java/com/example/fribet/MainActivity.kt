@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
             false,10,"hej hej")
 
 
+
+
         setContentView(R.layout.activity_main)
         var btnLogin = findViewById<Button>(R.id.btnLogin)
         var loginInfo = findViewById<EditText>(R.id.loginText)
