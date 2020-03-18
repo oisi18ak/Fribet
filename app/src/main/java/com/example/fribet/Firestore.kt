@@ -25,9 +25,17 @@ class Firestore {
         val newUser = User(username,email,userId)
         db.collection("Users").document(userId!!).set(newUser)
     }
-    fun addBet(playerSending: String, playerReceiving: String,accepted:Boolean){
-        val newBet = Bets(0,accepted,false," ", playerSending,playerReceiving)
-        db.collection("Bets").add(newBet)
+
+
+    fun addBet(playerSending: String, playerReceiving: String,accepted:Boolean, amount: Int, description: String){
+        val newBet = Bets(accepted,amount, " ", false,description,playerReceiving,playerSending)
+        val docRef = db.collection("Bets")
+            .add(newBet)
+        docRef.addOnSuccessListener {
+            val id = it.id
+            val documentReference = db.collection("Bets").document("${id}")
+            documentReference.update("betID", id)
+        }
     }
 
     fun getAllAcceptedBets(callback: (MutableList<Bets>) -> Unit){
@@ -116,34 +124,31 @@ class Firestore {
             }
     }
 
-    fun getAllBets(callback: (MutableList<Bets>) -> Unit){
+    fun getAllBets(){
         db.collection("Bets")
             .get()
             .addOnSuccessListener { result ->
-                var listOfBets = mutableListOf<Bets>()
                 for (document in result) {
-                    listOfBets.add(document.toObject(Bets::class.java))
                     BetRepository.instance.listOfBets.add(document.toObject(Bets::class.java))
-                    Log.d("betsuccess", "${document.id} => ${document.data}")
+                    Log.d("betsuccess2", "${document.id} => ${document.data}")
                 }
-                callback(listOfBets)
             }
             .addOnFailureListener { exception ->
-                Log.d("betfail", "Error getting documents: ", exception)
+                Log.d("betfail2", "Error getting documents: ", exception)
             }
     }
 
-    fun getBetById(betId: String , callback: (Bets) -> Unit) {
-        db.collection("Bets")
-            .whereEqualTo("betID",betId)
+    fun getBetById(betId: String){
+        val docRef = db.collection("Bets")
+            .whereEqualTo("betID", betId)
             .get()
-            .addOnSuccessListener { result ->
-                var returnedBet = result.toObjects(Bets::class.java)
-                Log.d("betByIdSuccess", "Bet successfully received with result: ${result}")
-            }
-            .addOnFailureListener { e ->
-                Log.d("betByIdFail", "Bet unsuccessfully received with result: ", e)
-            }
+        docRef.addOnSuccessListener { result ->
+            BetRepository.instance.singleBet = result.toObjects(Bets::class.java)
+            Log.d("betIdSuccess", "The bets id is: ${BetRepository.instance.singleBet}")
+        }
+        docRef.addOnFailureListener {e ->
+            Log.d("betIdFail", "Couldnt get that bet bu that id: ",e )
+        }
     }
 
 

@@ -29,9 +29,12 @@ class MainActivity : AppCompatActivity() {
 
         //Simon; Den här kan du använda för att spara in alla accepted bets i listan
         // i betRepos och sen kan du accessa repos i din adapter för att få listan av bets
-        Firestore.instance.getAllAcceptedBets{allBets ->
-            BetRepository.instance.listOfAcceptedBets = allBets
-        }
+
+
+
+        Firestore.instance.addBet("trial sending","trying receivning",
+            false,10,"hej hej")
+
 
 
 
