@@ -124,51 +124,53 @@ class Firestore {
             }
     }
 
-    fun getAllBets(){
+    fun getAllBets(callback: (MutableList<Bets>) -> Unit){
         db.collection("Bets")
             .get()
             .addOnSuccessListener { result ->
+                var listOfBets = mutableListOf<Bets>()
                 for (document in result) {
+                    listOfBets.add(document.toObject(Bets::class.java))
                     BetRepository.instance.listOfBets.add(document.toObject(Bets::class.java))
-                    Log.d("betsuccess2", "${document.id} => ${document.data}")
+                    Log.d("betsuccess", "${document.id} => ${document.data}")
                 }
+                callback(listOfBets)
             }
             .addOnFailureListener { exception ->
-                Log.d("betfail2", "Error getting documents: ", exception)
+                Log.d("betfail", "Error getting documents: ", exception)
             }
     }
 
-    fun getBetById(betId: String){
-        val docRef = db.collection("Bets")
+    fun getBetById(betId: String , callback: (Bets) -> Unit) {
+        db.collection("Bets")
             .whereEqualTo("betID", betId)
             .get()
-        docRef.addOnSuccessListener { result ->
-            BetRepository.instance.singleBet = result.toObjects(Bets::class.java)
-            Log.d("betIdSuccess", "The bets id is: ${BetRepository.instance.singleBet}")
-        }
-        docRef.addOnFailureListener {e ->
-            Log.d("betIdFail", "Couldnt get that bet bu that id: ",e )
-        }
-    }
-
-
-
-    //Used to copy and paste to morph into; uncompleted. completed. etc Bets
-    /*
-    fun getAllBets(){
-        val betRef = db.collection("Bets")
-            .get()
-        betRef.addOnCompleteListener{
-            if(it.isSuccessful) {
-                BetRepository.instance.listOfBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
-                Log.d("testoterone","${BetRepository.instance.listOfBets}")
+            .addOnSuccessListener { result ->
+                var returnedBet = result.toObjects(Bets::class.java)
+                Log.d("betByIdSuccess", "Bet successfully received with result: ${result}")
             }
-            else{
-                Log.d("Errors: ", it.exception.toString())
+            .addOnFailureListener { e ->
+                Log.d("betByIdFail", "Bet unsuccessfully received with result: ", e)
             }
-        }
     }
-    */
-
 
 }
+
+
+
+//Used to copy and paste to morph into; uncompleted. completed. etc Bets
+/*
+fun getAllBets(){
+    val betRef = db.collection("Bets")
+        .get()
+    betRef.addOnCompleteListener{
+        if(it.isSuccessful) {
+            BetRepository.instance.listOfBets = it.result?.toObjects(Bets::class.java) as MutableList<Bets>
+            Log.d("testoterone","${BetRepository.instance.listOfBets}")
+        }
+        else{
+            Log.d("Errors: ", it.exception.toString())
+        }
+    }
+}
+*/
