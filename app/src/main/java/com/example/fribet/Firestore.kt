@@ -128,7 +128,7 @@ class Firestore {
         db.collection("Bets")
             .get()
             .addOnSuccessListener { result ->
-                var listOfBets = mutableListOf<Bets>()
+                val listOfBets = mutableListOf<Bets>()
                 for (document in result) {
                     listOfBets.add(document.toObject(Bets::class.java))
                     BetRepository.instance.listOfBets.add(document.toObject(Bets::class.java))
@@ -141,18 +141,35 @@ class Firestore {
             }
     }
 
-    fun getBetById(betId: String , callback: (Bets) -> Unit) {
+    fun getBetById(betId: String , callback: (MutableList<Bets>) -> Unit) {
         db.collection("Bets")
             .whereEqualTo("betID", betId)
             .get()
             .addOnSuccessListener { result ->
-                var returnedBet = result.toObjects(Bets::class.java)
+                val returnedBet = result.toObjects(Bets::class.java)
+                callback(returnedBet)
                 Log.d("betByIdSuccess", "Bet successfully received with result: ${result}")
             }
             .addOnFailureListener { e ->
                 Log.d("betByIdFail", "Bet unsuccessfully received with result: ", e)
             }
     }
+
+
+    fun getUserByUsername(username: String, callback: (MutableList<User>) -> Unit) {
+        db.collection("Users")
+            .whereEqualTo("username", username)
+            .get()
+            .addOnSuccessListener { result ->
+                val userWithUsername = result.toObjects(User::class.java)
+                callback(userWithUsername)
+            }
+            .addOnFailureListener {error ->
+                Log.d("getUserByUsernameFail","Couldn't find a user with that username", error)
+            }
+
+    }
+
 
 }
 
