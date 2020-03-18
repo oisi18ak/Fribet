@@ -28,7 +28,7 @@ class Firestore {
 
 
     fun addBet(playerSending: String, playerReceiving: String,accepted:Boolean, amount: Int, description: String){
-        val newBet = Bets(accepted,amount, " ", false,description,playerReceiving,playerSending)
+        var newBet = Bets(accepted,amount, " ", false,description,playerReceiving,playerSending)
         val docRef = db.collection("Bets")
             .add(newBet)
         docRef.addOnSuccessListener {
@@ -108,16 +108,18 @@ class Firestore {
         UserRepository.instance.currentUserId = user?.uid
     }
 
-    fun getUnacceptedBets(){
+    fun getUnacceptedBets(callback: (MutableList<Bets>) -> Unit){
         db.collection("Bets")
             .whereEqualTo("accepted",false)
             .whereEqualTo("playerReceiving",UserRepository.instance.currentUserId)
             .get()
             .addOnSuccessListener { result ->
+                val unacceptedBetsList = mutableListOf<Bets>()
                 for (document in result) {
                     BetRepository.instance.listOfUnacceptedBets.add(document.toObject(Bets::class.java))
                     Log.d("betsuccess2", "${document.id} => ${document.data}")
                 }
+                callback(unacceptedBetsList)
             }
             .addOnFailureListener { exception ->
                 Log.d("betfail2", "Error getting documents: ", exception)
@@ -128,7 +130,7 @@ class Firestore {
         db.collection("Bets")
             .get()
             .addOnSuccessListener { result ->
-                var listOfBets = mutableListOf<Bets>()
+                val listOfBets = mutableListOf<Bets>()
                 for (document in result) {
                     listOfBets.add(document.toObject(Bets::class.java))
                     BetRepository.instance.listOfBets.add(document.toObject(Bets::class.java))
@@ -141,12 +143,13 @@ class Firestore {
             }
     }
 
-    fun getBetById(betId: String , callback: (Bets) -> Unit) {
+    fun getBetById(betId: String , callback: (MutableList<Bets>) -> Unit) {
         db.collection("Bets")
             .whereEqualTo("betID", betId)
             .get()
             .addOnSuccessListener { result ->
-                var returnedBet = result.toObjects(Bets::class.java)
+                val returnedBet = result.toObjects(Bets::class.java)
+                callback(returnedBet)
                 Log.d("betByIdSuccess", "Bet successfully received with result: ${result}")
             }
             .addOnFailureListener { e ->
@@ -154,6 +157,27 @@ class Firestore {
             }
     }
 
+    fun getUserByUsername(username: String, callback: (MutableList<User>) -> Unit) {
+        db.collection("Users")
+            .whereEqualTo("username", username)
+            .get()
+            .addOnSuccessListener { result ->
+                val userWithUsername = result.toObjects(User::class.java)
+                callback(userWithUsername)
+            }
+            .addOnFailureListener {error ->
+                Log.d("getUserByUsernameFail","Couldn't find a user with that username", error)
+            }
+
+    }
+    
+
+    fun deleteBetById(betId: String){
+        val docRef = db.collection("Bets")
+            .document(betId)
+        docRef.delete()
+
+    }
 }
 
 
