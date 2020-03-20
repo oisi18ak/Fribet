@@ -192,6 +192,34 @@ class Firestore {
         docRef.delete()
 
     }
+
+    fun addUserAsFriend(username: String){
+        db.collection("Users")
+            .whereEqualTo("userID",firebaseAuth.currentUser?.uid)
+            .get()
+            .addOnSuccessListener { result ->
+                val currentUser = result.toObjects(User::class.java)
+                db.collection("User")
+                    .whereEqualTo("username",username)
+                    .get()
+                    .addOnSuccessListener { friendResult ->
+                        val userToAdd = friendResult.toObjects(User::class.java)
+                        currentUser[0].friends?.add(userToAdd[0].userId!!)
+                    }
+                    .addOnFailureListener{
+                        Log.d("addUserAsFriendFail", "Something went not good, prob user doesnt exist or something")
+                    }
+            }
+    }
+
+
+
+
+
+
+
+
+
 }
 
 
