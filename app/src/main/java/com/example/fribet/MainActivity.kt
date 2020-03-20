@@ -25,13 +25,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Firestore.instance.getAllBets{allBets ->
             BetRepository.instance.listOfBets = allBets
+            //Log.d("asd", "${BetRepository.instance.listOfBets}")
         }
-        Log.d("asd", fbAuth.currentUser.toString())
-        Firestore.instance.getUnacceptedBets()
         Firestore.instance.getUserByUsername("simon"){ userWithUsername ->
-            UserRepository.instance.currentUserId = userWithUsername.toString()
+            UserRepository.instance.currentUserId = userWithUsername
             val user = UserRepository.instance.currentUserId
-            //Firestore.instance.addBet(, user.,false,101,"this is a description")
+            //Firestore.instance.addBet(user.toString(), user.toString(),false,202, "This is the description")
         }
 
 

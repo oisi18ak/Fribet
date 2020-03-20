@@ -8,10 +8,12 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class LoggedInActivity : AppCompatActivity() {
 
+    val db = FirebaseFirestore.getInstance()
     var fbAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,9 +21,14 @@ class LoggedInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_logged_in)
         Firestore.instance.readUserId()
 
+        Firestore.instance.getUnacceptedBets{unacceptedBetsList ->
+            BetRepository.instance.listOfUnacceptedBets = unacceptedBetsList
+            Log.d("asd","${BetRepository.instance.listOfUnacceptedBets}")
+        }
         var btnLogOut = findViewById<Button>(R.id.btnLogout)
         var btnSetting = findViewById<Button>(R.id.settingsButton)
         var btnMyBets = findViewById<Button>(R.id.myBetsButton)
+        var btnAllBets = findViewById<Button>(R.id.betsButton)
 
         btnSetting.setOnClickListener{
             var intent = Intent(this, SettingsActivity::class.java)
@@ -35,6 +42,11 @@ class LoggedInActivity : AppCompatActivity() {
 
         btnMyBets.setOnClickListener{
             var intent = Intent(this, MyBetsActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnAllBets.setOnClickListener{
+            var intent = Intent(this, AllBetsActivity::class.java)
             startActivity(intent)
         }
 
