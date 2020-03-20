@@ -171,6 +171,19 @@ class Firestore {
             }
 
     }
+
+    fun getUserByUserId(userId: String, callback: (User) -> Unit){
+        val docRef = db.collection("Users")
+            .whereEqualTo("userId",userId)
+            .get()
+            .addOnSuccessListener {
+                val user = it.toObjects(User::class.java)
+                callback(user[0])
+            }
+            .addOnFailureListener {
+                Log.d("UserNotGood", "no user by that id")
+            }
+    }
     
 
     fun deleteBetById(betId: String){
@@ -179,6 +192,34 @@ class Firestore {
         docRef.delete()
 
     }
+
+    fun addUserAsFriend(username: String){
+        db.collection("Users")
+            .whereEqualTo("userID",firebaseAuth.currentUser?.uid)
+            .get()
+            .addOnSuccessListener { result ->
+                val currentUser = result.toObjects(User::class.java)
+                db.collection("User")
+                    .whereEqualTo("username",username)
+                    .get()
+                    .addOnSuccessListener { friendResult ->
+                        val userToAdd = friendResult.toObjects(User::class.java)
+                        currentUser[0].friends?.add(userToAdd[0].userId!!)
+                    }
+                    .addOnFailureListener{
+                        Log.d("addUserAsFriendFail", "Something went not good, prob user doesnt exist or something")
+                    }
+            }
+    }
+
+
+
+
+
+
+
+
+
 }
 
 

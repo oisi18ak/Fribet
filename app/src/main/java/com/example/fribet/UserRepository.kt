@@ -5,4 +5,5 @@ class UserRepository {
         val instance = UserRepository()
     }
     var currentUserId: String? = " "
+    lateinit var singleUser: User
 }
