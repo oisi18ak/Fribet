@@ -212,6 +212,14 @@ class Firestore {
             }
     }
 
+    fun acceptBet(betId: String){
+        db.collection("Bets").document(betId)
+            .update("accepted",true)
+    }
+    fun completeBet(betId: String){
+        db.collection("Bets").document(betId)
+            .update("completed",true)
+    }
 
 
 
