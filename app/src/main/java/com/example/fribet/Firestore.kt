@@ -217,6 +217,7 @@ class Firestore {
             .update("accepted",true)
     }
     fun completeBet(betId: String){
+
         db.collection("Bets").document(betId)
             .update("completed",true)
     }
