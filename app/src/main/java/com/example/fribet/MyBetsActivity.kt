@@ -18,13 +18,15 @@ class MyBetsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         var mutableList = mutableListOf<String>()
         for (bet in BetRepository.instance.listOfUnacceptedBets)
             bet.playerReceiving?.let { mutableList.add(it) }
+
         setContentView(R.layout.activity_my_bets)
         var listView = findViewById<ListView>(R.id.listView)
-        Log.d("asd","${mutableList}")
-        Log.d("asd","${BetRepository.instance.listOfUnacceptedBets}")
+        Log.d("asd1","${mutableList}")
+        Log.d("asd2","${BetRepository.instance.listOfUnacceptedBets}")
         val adapter = ArrayAdapter<String>(
             this,
             android.R.layout.simple_list_item_1,

@@ -24,8 +24,8 @@ class AllBetsActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_all_bets)
         var listView = findViewById<ListView>(R.id.listView)
-        Log.d("asd","${mutableList}")
-        Log.d("asd","${BetRepository.instance.listOfBets}")
+        Log.d("asd3","${mutableList}")
+        Log.d("asd4","${BetRepository.instance.listOfBets}")
         val adapter = ArrayAdapter<String>(
             this,
             android.R.layout.simple_list_item_1,

@@ -25,6 +25,24 @@ class LoggedInActivity : AppCompatActivity() {
             BetRepository.instance.listOfUnacceptedBets = unacceptedBetsList
             Log.d("asd","${BetRepository.instance.listOfUnacceptedBets}")
         }
+        Firestore.instance.getAllBets { allBets ->
+            Log.d("checkAllBets", "${BetRepository.instance.listOfBets}")
+        }
+
+
+
+
+
+
+
+
+       // Firestore.instance.addUserAsFriend("simon")
+
+
+
+
+
+
         var btnLogOut = findViewById<Button>(R.id.btnLogout)
         var btnSetting = findViewById<Button>(R.id.settingsButton)
         var btnMyBets = findViewById<Button>(R.id.myBetsButton)
