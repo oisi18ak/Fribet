@@ -28,6 +28,30 @@ class LoggedInActivity : AppCompatActivity() {
             BetRepository.instance.listOfUnacceptedBets = unacceptedBetsList
             //Log.d("asd","${BetRepository.instance.listOfUnacceptedBets}")
         }
+        Firestore.instance.getAllBets { allBets ->
+            Log.d("checkAllBets", "${BetRepository.instance.listOfBets}")
+        }
+
+
+
+
+
+
+
+       // Firestore.instance.getUserByUsername("simon"){userId ->
+        //    Firestore.instance.addFriend(userId!!)
+        //}
+
+        Firestore.instance.getFriendList { listOfFriends ->
+            Log.d("FriendList", "this is your list of friends id: ${listOfFriends}")
+        }
+        //Firestore.instance.addUserAsFriend("simon")
+
+
+
+
+
+
         var btnLogOut = findViewById<Button>(R.id.btnLogout)
         var btnSetting = findViewById<Button>(R.id.settingsButton)
         var btnMyBets = findViewById<Button>(R.id.myBetsButton)

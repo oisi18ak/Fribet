@@ -4,6 +4,8 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 //import androidx.test.orchestrator.junit.BundleJUnitUtils.getResult
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import javax.security.auth.callback.Callback
@@ -38,6 +40,23 @@ class Firestore {
         }
     }
 
+    fun getUnacceptedBets(callback: (MutableList<Bets>) -> Unit){
+        db.collection("Bets")
+            .whereEqualTo("accepted",false)
+            //.whereEqualTo("playerReceiving",UserRepository.instance.currentUserId)
+            .get()
+            .addOnSuccessListener { result ->
+                val unacceptedBetsList = mutableListOf<Bets>()
+                for (document in result) {
+                    BetRepository.instance.listOfUnacceptedBets.add(document.toObject(Bets::class.java))
+                    Log.d("betsuccess2", "${document.id} => ${document.data}")
+                }
+                callback(unacceptedBetsList)
+            }
+            .addOnFailureListener { exception ->
+                Log.d("betfail2", "Error getting documents: ", exception)
+            }
+    }
     fun getAllAcceptedBets(callback: (MutableList<Bets>) -> Unit){
         db.collection("Bets")
             .whereEqualTo("accepted",true)
@@ -46,7 +65,7 @@ class Firestore {
                 var listOfBets = mutableListOf<Bets>()
                 for (document in result) {
                   listOfBets.add(document.toObject(Bets::class.java))
-                  //  BetRepository.instance.listOfAcceptedBets.add(document.toObject(Bets::class.java))
+                    BetRepository.instance.listOfAcceptedBets.add(document.toObject(Bets::class.java))
                     Log.d("betsuccess", "${document.id} => ${document.data}")
                 }
                 callback(listOfBets)
@@ -108,23 +127,7 @@ class Firestore {
         UserRepository.instance.currentUserId = user?.uid
     }
 
-    fun getUnacceptedBets(callback: (MutableList<Bets>) -> Unit){
-        db.collection("Bets")
-            .whereEqualTo("accepted",false)
-            .whereEqualTo("playerReceiving",UserRepository.instance.currentUserId)
-            .get()
-            .addOnSuccessListener { result ->
-                val unacceptedBetsList = mutableListOf<Bets>()
-                for (document in result) {
-                    BetRepository.instance.listOfUnacceptedBets.add(document.toObject(Bets::class.java))
-                    Log.d("betsuccess2", "${document.id} => ${document.data}")
-                }
-                callback(unacceptedBetsList)
-            }
-            .addOnFailureListener { exception ->
-                Log.d("betfail2", "Error getting documents: ", exception)
-            }
-    }
+
 
     fun getAllBets(callback: (MutableList<Bets>) -> Unit){
         db.collection("Bets")
@@ -193,24 +196,7 @@ class Firestore {
 
     }
 
-    fun addUserAsFriend(username: String){
-        db.collection("Users")
-            .whereEqualTo("userID",firebaseAuth.currentUser?.uid)
-            .get()
-            .addOnSuccessListener { result ->
-                val currentUser = result.toObjects(User::class.java)
-                db.collection("User")
-                    .whereEqualTo("username",username)
-                    .get()
-                    .addOnSuccessListener { friendResult ->
-                        val userToAdd = friendResult.toObjects(User::class.java)
-                        currentUser[0].friends?.add(userToAdd[0].userId!!)
-                    }
-                    .addOnFailureListener{
-                        Log.d("addUserAsFriendFail", "Something went not good, prob user doesnt exist or something")
-                    }
-            }
-    }
+
 
     fun acceptBet(betId: String){
         db.collection("Bets").document(betId)
@@ -222,6 +208,27 @@ class Firestore {
             .update("completed",true)
     }
 
+    fun addFriend(friendId: String){
+        val userRef = db.collection("Users")
+            .document(firebaseAuth.currentUser!!.uid)
+
+        userRef.update("friends", FieldValue.arrayUnion(friendId))
+
+    }
+
+    fun getFriendList(callback: (ArrayList<String>?) -> Unit){
+        val docRef = db.collection("Users")
+            .document(firebaseAuth.currentUser!!.uid)
+            .get()
+            .addOnSuccessListener { result ->
+               val friends = result.toObject(User::class.java)
+                Log.d("trialFriends", "this is what's inside friends: ${friends?.friends}")
+                callback(friends?.friends)
+            }
+            .addOnFailureListener {
+                Log.d("getFriendListFail", "you don't have any friends. I'm sorry.")
+            }
+    }
 
 
 

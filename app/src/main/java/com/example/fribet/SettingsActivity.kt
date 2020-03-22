@@ -15,6 +15,23 @@ class SettingsActivity  : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
+
+
+
+
+
+
+
+        Firestore.instance.getFriendList { friendList ->
+            Log.d("friendListTesting", "The friend list is currently: ${friendList}")
+        }
+
+
+
+
         setContentView(R.layout.activity_settings)
         changeButton.setOnClickListener{
             var intent = Intent(this, ChangePasswordActivityActivity::class.java)
