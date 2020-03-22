@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_all_bets.*
 import kotlinx.android.synthetic.main.activity_all_bets.listView
+import kotlinx.android.synthetic.main.activity_friends_list.*
 import kotlinx.android.synthetic.main.activity_my_bets.*
 
 class FriendsListActivity : AppCompatActivity() {
@@ -46,8 +47,8 @@ class FriendsListActivity : AppCompatActivity() {
         for (bet in BetRepository.instance.listOfBets)
             bet.playerReceiving?.let { mutableList.add(it) }
         var listView = findViewById<ListView>(R.id.listView)
-        Log.d("asd","${mutableList}")
-        Log.d("asd","${BetRepository.instance.listOfBets}")
+        //Log.d("asd","${mutableList}")
+        //Log.d("asd","${BetRepository.instance.listOfBets}")
         val adapter = ArrayAdapter<String>(
             this,
             android.R.layout.simple_list_item_1,
@@ -61,6 +62,11 @@ class FriendsListActivity : AppCompatActivity() {
             val betId = clickedToDo[position].betID
             val intent = Intent(this, BetRequestActivity::class.java)
             intent.putExtra("betId", betId)
+            startActivity(intent)
+        }
+
+        addButton.setOnClickListener {
+            var intent = Intent(this, AddFriendActivity::class.java)
             startActivity(intent)
         }
     }
