@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 //import androidx.test.orchestrator.junit.BundleJUnitUtils.getResult
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import javax.security.auth.callback.Callback
@@ -224,13 +225,11 @@ class Firestore {
     }
 
     fun addFriend(friendId: String){
-        db.collection("Users")
+        val userRef = db.collection("Users")
             .document(firebaseAuth.currentUser!!.uid)
-            .get()
-            .addOnSuccessListener { result ->
-                val currentUser = result.toObject(User::class.java)
-                currentUser?.friends?.add(friendId)
-            }
+
+        userRef.update("friends", FieldValue.arrayUnion(friendId))
+
     }
 
     fun getFriendList(callback: (ArrayList<String>?) -> Unit){
