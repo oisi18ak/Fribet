@@ -29,8 +29,8 @@ class Firestore {
     }
 
 
-    fun addBet(playerSending: String, playerReceiving: String,accepted:Boolean, amount: Int, description: String){
-        var newBet = Bets(accepted,amount, " ", false,description,playerReceiving,playerSending)
+    fun addBet(playerSending: String, playerReceiving: String,accepted:Boolean, amount: String, description: String){
+        var newBet = Bets(accepted,amount.toInt(), " ", false,description,playerReceiving,playerSending)
         val docRef = db.collection("Bets")
             .add(newBet)
         docRef.addOnSuccessListener {
