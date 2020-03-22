@@ -170,6 +170,7 @@ class Firestore {
                 callback(userId)
             }
             .addOnFailureListener {error ->
+                callback(null)
                 Log.d("getUserByUsernameFail","Couldn't find a user with that username", error)
             }
 
@@ -222,11 +223,17 @@ class Firestore {
             .get()
             .addOnSuccessListener { result ->
                val friends = result.toObject(User::class.java)
-                Log.d("trialFriends", "this is what's inside friends: ${friends?.friends}")
-                callback(friends?.friends)
+                if(friends?.friends == null)
+                    callback(null)
+                else{
+                    Log.d("trialFriends", "this is what's inside friends: ${friends?.friends}")
+                    callback(friends.friends)
+                }
+
             }
             .addOnFailureListener {
                 Log.d("getFriendListFail", "you don't have any friends. I'm sorry.")
+                callback(null)
             }
     }
 
