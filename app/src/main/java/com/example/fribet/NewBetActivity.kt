@@ -27,8 +27,17 @@ class NewBetActivity : AppCompatActivity() {
         val clicked = intent.getStringExtra("userId")
         Firestore.instance.getUserByUsername(clicked){userId ->
             Firestore.instance.getUserByUserId(userId.toString()){ user ->
-                confirm.setOnClickListener {
-                    //Firestore.instance.addBet(UserRepository.instance.currentUserId.toString(), user.userId.toString(), false, betAmount.text.toString(), betDescription.text.toString())
+                confirmButton.setOnClickListener {
+                    Firestore.instance.addBet(UserRepository.instance.currentUserId.toString(), user.userId.toString(), false, betAmount.text.toString(), betDescription.text.toString())
+                    val intent = Intent(this, FriendsListActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                cancelButton.setOnClickListener {
+                    val intent = Intent(this, FriendProfileActivity::class.java)
+                    intent.putExtra("userId", clicked)
+                    startActivity(intent)
+                    finish()
                 }
             }
         }

@@ -25,15 +25,13 @@ class LoggedInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_logged_in)
         Firestore.instance.readUserId()
-        var userId = UserRepository.instance.currentUserId
-        if (userId != null) {
-            Firestore.instance.getUserByUserId(userId.toString()){user ->
-                usernameText.text = user.username
-                totalBets.text = "Total bets: " + user.totalBets.toString()
-                wins.text = "Wins: " + user.wins.toString()
-                losses.text = "Losses: " + user.losses.toString()
-                balance.text = "Balance: " + user.totalBalance.toString()
-            }
+
+        Firestore.instance.getUserByUserId(UserRepository.instance.currentUserId.toString()){ user ->
+            username.text = user.username.toString()
+            totalBets.text = "Total bets: " + user.totalBets.toString()
+            wins.text = "Wins: " + user.wins.toString()
+            losses.text = "Losses: " + user.losses.toString()
+            balance.text = "Balance: " + user.totalBalance.toString()
         }
 
         //Firestore.instance.getUserByUsername("simon")

@@ -31,7 +31,7 @@ class FriendProfileActivity : AppCompatActivity() {
         }
         challengeButton.setOnClickListener {
             val intent = Intent(this, NewBetActivity::class.java)
-            intent.putExtra("user", clicked)
+            intent.putExtra("userId", clicked)
             startActivity(intent)
         }
     }

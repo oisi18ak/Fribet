@@ -8,8 +8,8 @@
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="383dp"
-        android:layout_height="278dp"
+        android:layout_width="379dp"
+        android:layout_height="234dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.571"
@@ -19,14 +19,14 @@
 
     <ListView
         android:id="@+id/listView2"
-        android:layout_width="381dp"
-        android:layout_height="305dp"
+        android:layout_width="380dp"
+        android:layout_height="267dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.612"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listView"
-        app:layout_constraintVertical_bias="0.542">
+        app:layout_constraintVertical_bias="0.726">
 
     </ListView>
 
