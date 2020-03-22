@@ -20,15 +20,19 @@ class LoggedInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_logged_in)
         Firestore.instance.readUserId()
+        var user = UserRepository.instance.currentUserId
+        Log.d("asd", user)
+        //Firestore.instance.getUserByUsername("simon")
 
         Firestore.instance.getUnacceptedBets{unacceptedBetsList ->
             BetRepository.instance.listOfUnacceptedBets = unacceptedBetsList
-            Log.d("asd","${BetRepository.instance.listOfUnacceptedBets}")
+            //Log.d("asd","${BetRepository.instance.listOfUnacceptedBets}")
         }
         var btnLogOut = findViewById<Button>(R.id.btnLogout)
         var btnSetting = findViewById<Button>(R.id.settingsButton)
         var btnMyBets = findViewById<Button>(R.id.myBetsButton)
         var btnAllBets = findViewById<Button>(R.id.betsButton)
+        var btnFriends = findViewById<Button>(R.id.friendsButton)
 
         btnSetting.setOnClickListener{
             var intent = Intent(this, SettingsActivity::class.java)
@@ -42,6 +46,11 @@ class LoggedInActivity : AppCompatActivity() {
 
         btnMyBets.setOnClickListener{
             var intent = Intent(this, MyBetsActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnFriends.setOnClickListener{
+            var intent = Intent(this, FriendsListActivity::class.java)
             startActivity(intent)
         }
 

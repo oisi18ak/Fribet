@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_all_bets.*
 import kotlinx.android.synthetic.main.activity_all_bets.listView
 import kotlinx.android.synthetic.main.activity_my_bets.*
 
-class MyBetsActivity : AppCompatActivity() {
+class FriendsListActivity : AppCompatActivity() {
 
     var fbAuth: FirebaseAuth = FirebaseAuth.getInstance()
     var db = FirebaseFirestore.getInstance()
@@ -41,7 +41,7 @@ class MyBetsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_bets)
+        setContentView(R.layout.activity_friends_list)
         var mutableList = mutableListOf<String>()
         for (bet in BetRepository.instance.listOfBets)
             bet.playerReceiving?.let { mutableList.add(it) }
@@ -55,16 +55,8 @@ class MyBetsActivity : AppCompatActivity() {
             mutableList
         )
         listView.adapter = adapter
-        listView2.adapter = adapter
 
         listView.setOnItemClickListener{ adapter, view, position, id ->
-            val clickedToDo = BetRepository.instance.listOfBets
-            val betId = clickedToDo[position].betID
-            val intent = Intent(this, BetRequestActivity::class.java)
-            intent.putExtra("betId", betId)
-            startActivity(intent)
-        }
-        listView2.setOnItemClickListener{ adapter, view, position, id ->
             val clickedToDo = BetRepository.instance.listOfBets
             val betId = clickedToDo[position].betID
             val intent = Intent(this, BetRequestActivity::class.java)
