@@ -16,11 +16,11 @@ class AddFriendActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_friend)
         var username = findViewById<EditText>(R.id.searchText)
+
         addButton.setOnClickListener {
-            Log.d("asd", username.toString())
-            Firestore.instance.getUserByUsername(username.toString()){userId ->
-                var user = userId
-                if(user == null){
+            Firestore.instance.getUserByUsername(username.text.toString()){userId ->
+                Log.d("asd", userId)
+                if(userId == ""){
                     searchText.error = "No user found with that name!"
                 }
                 else{
@@ -29,14 +29,14 @@ class AddFriendActivity : AppCompatActivity() {
                     .setMessage("Do you want to add?")
                     .setPositiveButton("Yes") {
                             dialog, whichButton ->
-                        Firestore.instance.addFriend(user)
+                        Firestore.instance.addFriend(userId.toString())
                         val intent = Intent(this, FriendsListActivity::class.java)
                         startActivity(intent)
                         finish()
                     }.setNegativeButton(
                         "No"
                     ) { dialog, whichButton ->
-                        // Do not delete it.
+                        // Do not add friend.
                     }.show()
 
                 }

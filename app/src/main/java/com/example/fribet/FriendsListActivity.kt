@@ -43,27 +43,36 @@ class FriendsListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friends_list)
-        var mutableList = mutableListOf<String>()
-        for (bet in BetRepository.instance.listOfBets)
+        var mutableList = arrayListOf<String>()
+        Firestore.instance.getFriendList { listOfFriends ->
+            if (listOfFriends != null) {
+                mutableList = listOfFriends
+            }
+            Log.d("asd","${mutableList}")
+            //Firestore.instance.getUserByUserId{ mutableList[0], user ->
+               // mutableList[0] = user
+            //}
+        }
+        /*for (bet in BetRepository.instance.listOfBets)
             bet.playerReceiving?.let { mutableList.add(it) }
         var listView = findViewById<ListView>(R.id.listView)
-        //Log.d("asd","${mutableList}")
-        //Log.d("asd","${BetRepository.instance.listOfBets}")
+
         val adapter = ArrayAdapter<String>(
             this,
             android.R.layout.simple_list_item_1,
             android.R.id.text1,
             mutableList
-        )
-        listView.adapter = adapter
+        )*/
+        //listView.adapter = adapter
 
-        listView.setOnItemClickListener{ adapter, view, position, id ->
+
+        /*listView.setOnItemClickListener{ adapter, view, position, id ->
             val clickedToDo = BetRepository.instance.listOfBets
             val betId = clickedToDo[position].betID
             val intent = Intent(this, BetRequestActivity::class.java)
             intent.putExtra("betId", betId)
             startActivity(intent)
-        }
+        }*/
 
         addButton.setOnClickListener {
             var intent = Intent(this, AddFriendActivity::class.java)

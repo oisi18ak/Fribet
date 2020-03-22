@@ -17,20 +17,9 @@ class SettingsActivity  : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
-
-
-
-
-
-
-
-
         Firestore.instance.getFriendList { friendList ->
             Log.d("friendListTesting", "The friend list is currently: ${friendList}")
         }
-
-
-
 
         setContentView(R.layout.activity_settings)
         changeButton.setOnClickListener{
