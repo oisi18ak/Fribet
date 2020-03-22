@@ -24,9 +24,8 @@ class MyBetsActivity : AppCompatActivity() {
         Firestore.instance.getAllBets{allBets ->
             BetRepository.instance.listOfBets = allBets
             var mutableList = mutableListOf<String>()
-            //mutableList.add("test")
             for (bet in BetRepository.instance.listOfBets)
-                bet.playerReceiving?.let { mutableList.add(it + " Invited you!") }
+                bet.playerSending?.let { mutableList.add(it + " Invited you!") }
             val adapter = ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
@@ -58,8 +57,8 @@ class MyBetsActivity : AppCompatActivity() {
         listView2.adapter = adapter
 
         listView.setOnItemClickListener{ adapter, view, position, id ->
-            val clickedToDo = BetRepository.instance.listOfBets
-            val betId = clickedToDo[position].betID
+            val clicked = BetRepository.instance.listOfBets
+            val betId = clicked[position].betID
             val intent = Intent(this, BetRequestActivity::class.java)
             intent.putExtra("betId", betId)
             startActivity(intent)

@@ -55,8 +55,8 @@ class AllBetsActivity : AppCompatActivity() {
         listView.adapter = adapter
 
         listView.setOnItemClickListener { adapter, view, position, id ->
-            val clickedToDo = BetRepository.instance.listOfBets
-            val betId = clickedToDo[position-1].betID
+            val clicked = BetRepository.instance.listOfBets
+            val betId = clicked[position-1].betID
             val intent = Intent(this, CurrentBetActivity::class.java)
             intent.putExtra("betId", betId)
             startActivity(intent)

@@ -20,7 +20,7 @@ class FriendsListActivity : AppCompatActivity() {
     var fbAuth: FirebaseAuth = FirebaseAuth.getInstance()
     var db = FirebaseFirestore.getInstance()
 
-    override fun onStart() {
+    /*override fun onStart() {
         super.onStart()
         Firestore.instance.getAllBets{allBets ->
             BetRepository.instance.listOfBets = allBets
@@ -38,21 +38,47 @@ class FriendsListActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         }
 
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friends_list)
-        var mutableList = arrayListOf<String>()
+        var arrayList = arrayListOf<String>()
+        var arrayList2 = arrayListOf<String>()
         Firestore.instance.getFriendList { listOfFriends ->
             if (listOfFriends != null) {
-                mutableList = listOfFriends
+                arrayList = listOfFriends
             }
-            Log.d("asd","${mutableList}")
-            //Firestore.instance.getUserByUserId{ mutableList[0], user ->
-               // mutableList[0] = user
-            //}
+            Log.d("asd", "${arrayList}")
+            for (betId in arrayList) {
+                Firestore.instance.getUserByUserId(betId) { User ->
+                    arrayList2.add(User.username.toString())
+                    Log.d("asd", "${arrayList2}")
+                    val adapter = ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_list_item_1,
+                        android.R.id.text1,
+                        arrayList2
+                    )
+                    listView.adapter = adapter
+                    listView.setOnItemClickListener { adapter, view, position, id ->
+                        var clicked = arrayList2
+                        val userId = clicked[position]
+                        val intent = Intent(this, FriendProfileActivity::class.java)
+                        intent.putExtra("userId", userId)
+                        startActivity(intent)
+                    }
+                }
+            }
         }
+        addButton.setOnClickListener {
+            var intent = Intent(this, AddFriendActivity::class.java)
+            startActivity(intent)
+        }
+    }
+}
+
+            //adapter.notifyDataSetChanged()
         /*for (bet in BetRepository.instance.listOfBets)
             bet.playerReceiving?.let { mutableList.add(it) }
         var listView = findViewById<ListView>(R.id.listView)
@@ -65,18 +91,3 @@ class FriendsListActivity : AppCompatActivity() {
         )*/
         //listView.adapter = adapter
 
-
-        /*listView.setOnItemClickListener{ adapter, view, position, id ->
-            val clickedToDo = BetRepository.instance.listOfBets
-            val betId = clickedToDo[position].betID
-            val intent = Intent(this, BetRequestActivity::class.java)
-            intent.putExtra("betId", betId)
-            startActivity(intent)
-        }*/
-
-        addButton.setOnClickListener {
-            var intent = Intent(this, AddFriendActivity::class.java)
-            startActivity(intent)
-        }
-    }
-}

@@ -24,8 +24,6 @@ class CurrentBetActivity : AppCompatActivity() {
             BetRepository.instance.singleBet = returnedBet
             val bet = BetRepository.instance.singleBet
             VS.text = bet[0].playerSending + " VS " + bet[0].playerReceiving
-            //user1Text.text = bet[0].playerSending
-            //user2Text.text = bet[0].playerReceiving
             betDescription.text = bet[0].description
             newBetButton.setOnClickListener{
 

@@ -9,6 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_friend_profile.*
+import kotlinx.android.synthetic.main.activity_logged_in.*
+import kotlinx.android.synthetic.main.activity_logged_in.losses
+import kotlinx.android.synthetic.main.activity_logged_in.totalBets
+import kotlinx.android.synthetic.main.activity_logged_in.wins
 
 
 class LoggedInActivity : AppCompatActivity() {
@@ -20,10 +25,18 @@ class LoggedInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_logged_in)
         Firestore.instance.readUserId()
-        var user = UserRepository.instance.currentUserId
-        Log.d("asd", user)
-        //Firestore.instance.getUserByUsername("simon")
+        var userId = UserRepository.instance.currentUserId
+        if (userId != null) {
+            Firestore.instance.getUserByUserId(userId.toString()){user ->
+                usernameText.text = user.username
+                totalBets.text = "Total bets: " + user.totalBets.toString()
+                wins.text = "Wins: " + user.wins.toString()
+                losses.text = "Losses: " + user.losses.toString()
+                balance.text = "Balance: " + user.totalBalance.toString()
+            }
+        }
 
+        //Firestore.instance.getUserByUsername("simon")
         Firestore.instance.getUnacceptedBets{unacceptedBetsList ->
             BetRepository.instance.listOfUnacceptedBets = unacceptedBetsList
             //Log.d("asd","${BetRepository.instance.listOfUnacceptedBets}")

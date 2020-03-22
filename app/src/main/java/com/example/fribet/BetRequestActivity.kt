@@ -19,7 +19,7 @@ class BetRequestActivity : AppCompatActivity() {
         Firestore.instance.getBetById(clicked){returnedBet ->
             BetRepository.instance.singleBet = returnedBet
             val bet = BetRepository.instance.singleBet
-            userText.text = bet[0].playerReceiving + " has invited you!"
+            userText.text = bet[0].playerSending + " has invited you!"
             betAmount.text = "Amount: " + bet[0].amount
             betDescription.text = bet[0].description
             betAccept.setOnClickListener{

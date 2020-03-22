@@ -173,7 +173,6 @@ class Firestore {
                 callback(null)
                 Log.d("getUserByUsernameFail","Couldn't find a user with that username", error)
             }
-
     }
 
     fun getUserByUserId(userId: String, callback: (User) -> Unit){

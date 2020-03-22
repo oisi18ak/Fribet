@@ -27,6 +27,8 @@
         <activity android:name=".CurrentBetActivity"></activity>
         <activity android:name=".FriendsListActivity"></activity>
         <activity android:name=".AddFriendActivity"></activity>
+        <activity android:name=".FriendProfileActivity"></activity>
+        <activity android:name=".NewBetActivity"></activity>
     </application>
 
 </manifest>
