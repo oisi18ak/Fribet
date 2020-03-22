@@ -52,8 +52,8 @@ class MainActivity : AppCompatActivity() {
         var passwordInfo = findViewById<EditText>(R.id.passText)
         var btnForgot = findViewById<Button>(R.id.forgotButton)
         btnLogin.setOnClickListener {view ->
-            //signIn(view,loginInfo.text.toString(), passwordInfo.text.toString())
-            signIn(view, "2@2.2", "asdfgh")
+            signIn(view,loginInfo.text.toString(), passwordInfo.text.toString())
+           // signIn(view, "2@2.2", "asdfgh")
         }
         registerButton.setOnClickListener{
             var intent = Intent(this, RegisterActivity::class.java)

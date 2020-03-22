@@ -35,13 +35,13 @@ class LoggedInActivity : AppCompatActivity() {
 
 
 
-        Firestore.instance.getUserByUsername("simon"){userId ->
-            Firestore.instance.addFriend(userId!!)
-            Log.d("addFriendGood","you've added the friend: ${userId}")
-            Log.d("currentUser", "The current user is: ${Firestore.instance.firebaseAuth.currentUser?.uid}")
-            Log.d("currentUser2", "userRepos says: ${UserRepository.instance.currentUserId}")
-        }
+       // Firestore.instance.getUserByUsername("simon"){userId ->
+        //    Firestore.instance.addFriend(userId!!)
+        //}
 
+        Firestore.instance.getFriendList { listOfFriends ->
+            Log.d("FriendList", "this is your list of friends id: ${listOfFriends}")
+        }
         //Firestore.instance.addUserAsFriend("simon")
 
 

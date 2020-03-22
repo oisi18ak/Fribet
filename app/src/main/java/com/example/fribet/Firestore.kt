@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 //import androidx.test.orchestrator.junit.BundleJUnitUtils.getResult
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -195,24 +196,7 @@ class Firestore {
 
     }
 
-    fun addUserAsFriend(username: String){
-        db.collection("Users")
-            .whereEqualTo("userID",firebaseAuth.currentUser?.uid)
-            .get()
-            .addOnSuccessListener { result ->
-                val currentUser = result.toObjects(User::class.java)
-                db.collection("User")
-                    .whereEqualTo("username",username)
-                    .get()
-                    .addOnSuccessListener { friendResult ->
-                        val userToAdd = friendResult.toObjects(User::class.java)
-                        currentUser[0].friends?.add(userToAdd[0].userId!!)
-                    }
-                    .addOnFailureListener{
-                        Log.d("addUserAsFriendFail", "Something went not good, prob user doesnt exist or something")
-                    }
-            }
-    }
+
 
     fun acceptBet(betId: String){
         db.collection("Bets").document(betId)
@@ -233,12 +217,15 @@ class Firestore {
     }
 
     fun getFriendList(callback: (ArrayList<String>?) -> Unit){
-        db.collection("User").document(firebaseAuth.currentUser!!.uid)
+        val docRef = db.collection("Users")
+            .document(firebaseAuth.currentUser!!.uid)
             .get()
-            .addOnSuccessListener {
-                val friendList = it.toObject(User::class.java)?.friends
-                Log.d("getFriendListSuccess", "the list of friends is: ${friendList}")
-                callback(friendList)
+            .addOnSuccessListener { result ->
+               val friends = result.toObject(User::class.java)
+                Log.d("trialFriends", "this is what's inside friends: ${friends?.friends}")
+            }
+            .addOnFailureListener {
+                Log.d("getFriendListFail", "you don't have any friends. I'm sorry.")
             }
     }
 
