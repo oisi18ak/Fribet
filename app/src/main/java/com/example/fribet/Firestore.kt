@@ -223,6 +223,7 @@ class Firestore {
             .addOnSuccessListener { result ->
                val friends = result.toObject(User::class.java)
                 Log.d("trialFriends", "this is what's inside friends: ${friends?.friends}")
+                callback(friends?.friends)
             }
             .addOnFailureListener {
                 Log.d("getFriendListFail", "you don't have any friends. I'm sorry.")
